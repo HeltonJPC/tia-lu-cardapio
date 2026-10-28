@@ -49,9 +49,6 @@ a{color:inherit}
 
 /* ---------- Topo ---------- */
 .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
-.hero .pizza{position:absolute;top:-110px;right:-120px;width:min(440px,56vw);aspect-ratio:1;pointer-events:none;animation:spin 240s linear infinite}
-.hero .pizza img{width:100%;height:100%;object-fit:contain;display:block}
-@keyframes spin{to{transform:rotate(360deg)}}
 .hero .wrap{position:relative;padding-block:22px 30px}
 .logo{display:block;width:clamp(150px,24vw,210px);height:auto;margin-left:-6px}
 .hero h1{font-family:var(--f-head);font-weight:800;font-size:clamp(52px,9vw,86px);line-height:.95;letter-spacing:-.025em;color:var(--green);margin:6px 0 18px}
@@ -212,7 +209,6 @@ footer .brand img{width:150px;height:auto;display:block;margin-left:-4px}
   .picks .btn{grid-column:1/-1}
 }
 @media (max-width:520px){
-  .hero .pizza{top:-56px;right:-80px;width:62vw}
   .half{grid-template-columns:1fr}
   .half-ico{display:none}
   .picks{grid-template-columns:1fr}
@@ -237,7 +233,6 @@ footer .brand img{width:150px;height:auto;display:block;margin-left:-4px}
 <body>
 
 <header class="hero" id="top">
-  <div class="pizza" aria-hidden="true"><img src="img/pizza.webp" alt="" width="599" height="576"></div>
   <div class="wrap">
     <img class="logo" src="img/logo.webp" alt="Tia Lu · Pizzaria &amp; lanchonete" width="560" height="415">
     <div class="kick grey">Cardápio · Ouro Preto</div>
