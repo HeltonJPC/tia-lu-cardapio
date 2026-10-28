@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Cardápio de mesa Tia Lu</title>
+<style>
+@page{size:A4;margin:0}
+:root{--bg:#17100d;--surface:#221813;--line:#4a3528;--cream:#f6ead8;--muted:#bba591;--ember:#ee8a3a;--tomato:#e5533b;--basil:#86c264;--gold:#efbd62;
+  --serif:'Lora',Georgia,serif;--sans:'Poppins','DejaVu Sans',sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg)}
+body{color:var(--cream);font-family:var(--sans);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{position:relative;width:210mm;height:297mm;overflow:hidden;page-break-after:always;
+  background:radial-gradient(120mm 90mm at 50% -10mm,rgba(238,138,58,.20),transparent 70%),var(--bg)}
+.page:last-child{page-break-after:auto}
+.in{position:absolute;left:14mm;right:14mm}
+.cap{font-size:7.6pt;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:500}
+.photo{position:absolute;border-radius:50%;box-shadow:0 4mm 9mm rgba(0,0,0,.6),0 0 0 1.2mm rgba(238,138,58,.18)}
+.tag{display:inline-block;font-size:6pt;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border:.25mm solid currentColor;border-radius:9mm;padding:.3mm 1.6mm;vertical-align:2px;margin-left:1.6mm}
+.tag.veg{color:var(--basil)} .tag.hot{color:var(--tomato)}
+
+/* ---------- Página 1 ---------- */
+.p1 .left{left:-40mm;top:4mm;width:92mm;height:92mm}
+.p1 .right{right:-40mm;top:4mm;width:92mm;height:92mm}
+.head{top:9mm;text-align:center}
+.head .wm{width:88mm;display:block;margin:4mm auto 0}
+.head .sub{font-size:7.4pt;letter-spacing:.42em;text-transform:uppercase;color:var(--muted);margin-top:1.5mm}
+.head .tl{font-family:var(--serif);font-style:italic;font-size:13pt;margin-top:3.5mm;color:var(--cream)}
+.head .tl b{color:var(--ember);font-weight:500}
+
+.sizes{top:80mm;display:grid;grid-template-columns:repeat(3,1fr);gap:3mm}
+.size{display:flex;align-items:center;gap:3mm;border:.3mm solid var(--line);border-radius:4mm;padding:2.6mm 4mm;background:rgba(34,24,19,.85)}
+.dot{border-radius:50%;background:radial-gradient(circle,#f3cf6b 0 56%,#c27a2e 59% 100%);flex:none}
+.size span{display:block;font-size:7.6pt;color:var(--muted);letter-spacing:.06em}
+.size b{display:block;font-size:15pt;font-weight:700;color:var(--gold);line-height:1.1}
+.note{top:99.5mm;text-align:center;font-size:7.4pt;color:var(--muted)}
+
+.feat{top:105mm;height:52mm;display:grid;grid-template-columns:54mm 1fr;gap:7mm;align-items:center;border:.3mm solid #5b3e2b;border-radius:5mm;padding:0 7mm 0 0;
+  background:radial-gradient(80mm 60mm at 0 50%,rgba(238,138,58,.2),transparent 70%),var(--surface)}
+.feat img{width:55mm;height:55mm;border-radius:50%;margin-left:-4mm;box-shadow:0 3mm 8mm rgba(0,0,0,.6),0 0 0 1.2mm rgba(238,138,58,.2)}
+.badge{display:inline-block;background:var(--tomato);color:#fff;font-size:6.6pt;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:1mm 2.6mm;border-radius:9mm}
+.feat .k{margin-top:2.6mm}
+.feat h2{font-family:var(--serif);font-weight:600;font-size:22pt;line-height:1.05;margin-top:.6mm}
+.feat p{font-size:8.8pt;color:var(--muted);line-height:1.45;margin-top:2mm;max-width:95mm}
+
+.title{top:162mm;display:flex;align-items:flex-end;gap:5mm}
+.title img{height:12mm}
+.title .rule{flex:1;height:.3mm;background:var(--line);margin-bottom:2.2mm}
+.title .cap{margin-bottom:1.2mm}
+
+.list{top:177.5mm;display:grid;grid-template-columns:1fr 1fr;column-gap:10mm;row-gap:2.5mm}
+.it h3{font-family:var(--serif);font-weight:600;font-size:11.6pt;line-height:1.15}
+.it p{font-size:7.7pt;color:var(--muted);line-height:1.38;margin-top:.5mm}
+
+.foot{bottom:8mm;display:flex;justify-content:space-between;align-items:center;font-size:7.6pt;color:var(--muted);border-top:.3mm solid var(--line);padding-top:2.6mm}
+.foot b{color:var(--cream);font-weight:600}
+
+/* ---------- Página 2 ---------- */
+.p2 .pan{position:absolute;right:-62mm;top:46mm;width:132mm;height:132mm;filter:drop-shadow(0 4mm 8mm rgba(0,0,0,.55))}
+.p2 .pan svg{width:100%;height:100%}
+.top2{top:12mm;display:flex;justify-content:space-between;align-items:flex-start}
+.top2 .wm{width:40mm}
+.p2 .title{top:26mm}
+.p2 .title img{height:15mm}
+.porc{top:50mm;width:112mm;display:grid;row-gap:2.6mm}
+.row{display:flex;align-items:baseline;gap:2mm}
+.row .n{font-family:var(--serif);font-weight:600;font-size:12.4pt;white-space:nowrap}
+.row .n small{display:block;font-family:var(--sans);font-weight:400;font-size:7.4pt;color:var(--muted);letter-spacing:.02em}
+.row .dots{flex:1;border-bottom:.45mm dotted #6a4c39;transform:translateY(-1.2mm)}
+.row .p{font-weight:700;font-size:12pt;color:var(--gold);font-variant-numeric:tabular-nums}
+.row.hl .n{color:var(--ember)}
+.extra{top:184mm;display:flex;align-items:center;gap:4mm;border:.3mm dashed #6a4c39;border-radius:4mm;padding:3mm 5mm;width:112mm}
+.extra b{font-family:var(--serif);font-size:11.5pt;font-weight:600}
+.extra span{font-size:8.6pt;color:var(--muted);white-space:nowrap}
+.extra .chip{margin-left:auto;display:flex;gap:2mm}
+.extra .chip i{font-style:normal;font-size:8.4pt;font-weight:600;color:var(--cream);border:.3mm solid var(--line);border-radius:9mm;padding:1mm 2.6mm;white-space:nowrap}
+.pan-label{position:absolute;right:14mm;top:178mm;text-align:right;font-size:7.4pt;color:var(--muted)}
+.pan-label b{display:block;font-family:var(--serif);font-style:italic;font-weight:500;font-size:11pt;color:var(--cream)}
+
+.qr{bottom:22mm;height:56mm;display:grid;grid-template-columns:1fr 1fr;gap:5mm}
+.qc{display:grid;grid-template-columns:40mm 1fr;gap:5mm;align-items:center;background:var(--cream);color:#1c120c;border-radius:5mm;padding:5mm}
+.qc img{width:40mm;height:40mm;border-radius:1.5mm}
+.qc .cap{color:#a85a1c}
+.qc h4{font-family:var(--serif);font-weight:600;font-size:13.5pt;line-height:1.12;margin-top:1.4mm}
+.qc p{font-size:7.6pt;line-height:1.4;color:#5a4636;margin-top:1.6mm}
+.stars{color:#e0a034;font-size:11pt;letter-spacing:.6mm;margin-top:1.4mm}
+.p2 .foot{bottom:8mm}
+</style></head>
+<body>
+
+<!-- ================= PÁGINA 1 · PIZZAS ================= -->
+<section class="page p1">
+  <img class="photo left" src="portuguesa.webp" alt="">
+  <img class="photo right" src="calabresa.webp" alt="">
+  <div class="in head">
+    <div class="cap">Ouro Preto · Morro Santana</div>
+    <img class="wm" src="wordmark.png" alt="Tia Lu">
+    <div class="sub">Pizzaria &amp; Lanchonete</div>
+    <div class="tl">Nossas pizzas vão <b>conquistar</b> vocês.</div>
+  </div>
+
+  <div class="in sizes">
+    <div class="size"><i class="dot" style="width:6.5mm;height:6.5mm"></i><div><span>Pequena</span><b>R$ 35</b></div></div>
+    <div class="size"><i class="dot" style="width:8.5mm;height:8.5mm"></i><div><span>Média</span><b>R$ 45</b></div></div>
+    <div class="size"><i class="dot" style="width:10.5mm;height:10.5mm"></i><div><span>Grande</span><b>R$ 50</b></div></div>
+  </div>
+  <div class="in note">Mesmo preço para todos os sabores · <b style="color:var(--gold);font-weight:600">pode pedir meio a meio</b></div>
+
+  <div class="in feat">
+    <img src="torresmo.webp" alt="">
+    <div>
+      <span class="badge">Especial da casa</span>
+      <div class="cap k">Torresmo</div>
+      <h2>À Moda da Casa</h2>
+      <p>Molho de tomate, muçarela, torresmo crocante, azeite, catupiry, cheiro-verde e orégano.</p>
+    </div>
+  </div>
+
+  <div class="in title"><img src="pizzas.png" alt="Pizzas"><span class="rule"></span><span class="cap">13 sabores</span></div>
+
+  <div class="in list" id="list"></div>
+
+  <div class="in foot"><span>Peça em casa pelo WhatsApp <b>(31) 99783-9091</b></span><span><b>@pizzarialanchonetetialu</b></span></div>
+</section>
+
+<!-- ================= PÁGINA 2 · PORÇÕES ================= -->
+<section class="page p2">
+  <div class="pan" id="pan"></div>
+  <div class="in top2"><span class="cap">Para dividir com a mesa</span><img class="wm" src="wordmark.png" alt="Tia Lu"></div>
+  <div class="in title" style="right:auto;width:112mm"><img src="porcoes.png" alt="Porções"><span class="rule"></span></div>
+
+  <div class="in porc" id="porc"></div>
+
+  <div class="pan-label"><b>Trio Mineiro</b>mandioca, linguiça e torresmo</div>
+
+  <div class="in extra"><div><b>Turbine sua porção</b><br><span>Acrescente em qualquer porção</span></div>
+    <div class="chip"><i>+ Queijo R$ 8</i><i>+ Bacon R$ 8</i></div></div>
+
+  <div class="in qr">
+    <div class="qc"><img src="qr_google.svg" alt="QR Google">
+      <div><div class="cap">Gostou?</div><h4>Avalie a Tia Lu no Google</h4><div class="stars">★★★★★</div><p>Aponte a câmera do celular. Leva 30 segundos e ajuda muito a gente.</p></div></div>
+    <div class="qc"><img src="qr_whats.svg" alt="QR WhatsApp">
+      <div><div class="cap">Em casa</div><h4>Peça pelo WhatsApp</h4><p>(31) 99783-9091<br>Entrega e retirada. A taxa de entrega é combinada na conversa.</p></div></div>
+  </div>
+
+  <div class="in foot"><span>Rua Quinze de Agosto, 1844 · Morro Santana · Ouro Preto</span><span><b>@pizzarialanchonetetialu</b></span></div>
+</section>
+
+<script>
+/*ENGINE*/
+const PIZZAS=[
+ ['Portuguesa','Molho de tomate, presunto, muçarela, calabresa, palmito, tomate, pimentão, cebola, ovos, azeitona e orégano.'],
+ ['Calabresa','Molho de tomate, tomate, muçarela, calabresa, cebola e orégano.'],
+ ['Calabresa Picante','Molho de tomate, tomate, muçarela, calabresa, cebola, pimenta biquinho e orégano.','hot'],
+ ['Frango com Catupiry','Molho de tomate, tomate, muçarela, frango, catupiry e orégano.'],
+ ['Lombinho Canadense','Molho de tomate, lombinho, muçarela, tomate, orégano e cheddar ou catupiry.'],
+ ['Quatro Queijos','Molho de tomate, cheddar, muçarela, catupiry, gorgonzola e orégano.','veg'],
+ ['Bacon','Molho de tomate, tomate, bacon, muçarela e orégano.'],
+ ['Atum','Molho de tomate, tomate, atum, muçarela, cebola e orégano.'],
+ ['Palmito','Molho de tomate, tomate, palmito, muçarela e orégano.','veg'],
+ ['Brócolis','Molho de tomate, tomate, brócolis ao alho e óleo, muçarela e orégano.','veg'],
+ ['Milho','Molho de tomate, tomate, muçarela, milho e orégano.','veg'],
+ ['Muçarela','Molho de tomate, muçarela, tomate e orégano.','veg'],
+ ['Hot Dog','Salsicha ao molho, muçarela, milho, batata palha e orégano.']
+];
+document.getElementById('list').innerHTML=PIZZAS.map(([n,d,t])=>`<div class="it"><h3>${n}${t==='veg'?'<span class="tag veg">Sem carne</span>':t==='hot'?'<span class="tag hot">Picante</span>':''}</h3><p>${d}</p></div>`).join('');
+const PORC=[['Fritas',30],['Fritas com Queijo e Bacon',40],['Mandioca',25],['Torresmo',20],['Torresmo com Mandioca',35],['Linguiça',30],['Linguiça com Mandioca',40],['Trio Mineiro',50,'mandioca, linguiça e torresmo'],['Lombo',40],['Lombo com Fritas',50],['Contra Filé',50],['Contra Filé com Fritas',60],['Filé de Tilápia',50],['Meio da Asa',40]];
+document.getElementById('porc').innerHTML=PORC.map(([n,p,s])=>`<div class="row${s?' hl':''}"><span class="n">${n}${s?`<small>${s}</small>`:''}</span><span class="dots"></span><span class="p">R$ ${p}</span></div>`).join('');
+document.getElementById('pan').innerHTML=panSVG('trio-print',{mandioca:7,linguica:9,torresmo:9,limao:2});
+</script>
+</body></html>

@@ -1,0 +1,109 @@
+{
+  "store": {
+    "whats": "5531997839091",
+    "force": "",
+    "hours": [null, null, null, null, null, null, null],
+    "notice": "",
+    "delivery": { "mode": "combinar", "fee": null, "areas": [] }
+  },
+  "sections": [
+    {
+      "id": "pizzas", "title": "Pizzas", "kind": "pizza", "sizes": ["Pequena", "Média", "Grande"], "half": [false, true, true],
+      "groups": [
+        { "id": "tradicionais", "name": "Tradicionais", "prices": [null, null, null], "extra": null, "items": [
+          { "id": "portuguesa", "name": "Portuguesa", "desc": "Molho de tomate, muçarela, presunto, calabresa, palmito, ovo, tomate, pimentão, cebola, azeitona e orégano" },
+          { "id": "calabresa", "name": "Calabresa", "desc": "Molho de tomate, muçarela, calabresa, cebola e orégano" },
+          { "id": "calabresa-picante", "name": "Calabresa Picante", "desc": "Molho de tomate, muçarela, calabresa, cebola, pimenta biquinho e orégano" },
+          { "id": "frango-catupiry", "name": "Frango com Catupiry", "desc": "Molho de tomate, muçarela, frango desfiado, catupiry e orégano" },
+          { "id": "frango-bacon", "name": "Frango com Bacon", "desc": "Molho de tomate, muçarela, frango desfiado, bacon e orégano" },
+          { "id": "lombinho", "name": "Lombinho Canadense", "desc": "Molho de tomate, muçarela, lombinho canadense, tomate, cheddar ou catupiry e orégano", "opts": ["Cheddar", "Catupiry"] },
+          { "id": "brocolis", "name": "Brócolis", "desc": "Molho de tomate, muçarela, brócolis ao alho e óleo, tomate e orégano" },
+          { "id": "bacon", "name": "Bacon", "desc": "Molho de tomate, muçarela, bacon, tomate e orégano" },
+          { "id": "mucarela", "name": "Muçarela", "desc": "Molho de tomate, muçarela, tomate e orégano" },
+          { "id": "palmito", "name": "Palmito", "desc": "Molho de tomate, muçarela, palmito, tomate e orégano" },
+          { "id": "milho", "name": "Milho", "desc": "Molho de tomate, muçarela, milho e orégano" },
+          { "id": "torresmo", "name": "Torresmo", "desc": "Molho de tomate, muçarela, torresmo, catupiry, cheiro-verde, azeite e orégano" },
+          { "id": "marguerita", "name": "Marguerita", "desc": "Molho de tomate, muçarela, tomate, manjericão e orégano" },
+          { "id": "quatro-queijos", "name": "Quatro Queijos", "desc": "Molho de tomate, muçarela, cheddar, catupiry, provolone e orégano" },
+          { "id": "atum", "name": "Atum", "desc": "Molho de tomate, muçarela, atum, cebola, tomate e orégano" }
+        ]},
+        { "id": "especiais", "name": "Especiais", "prices": [null, null, null], "extra": null, "items": [
+          { "id": "mineira", "name": "À Mineira", "desc": "Molho de tomate, muçarela, pernil, bacon, calabresa, ovo, pimenta biquinho e orégano" },
+          { "id": "iscas-file", "name": "Iscas de Filé", "desc": "Molho de tomate, muçarela, iscas de contrafilé, pimenta biquinho e orégano" },
+          { "id": "peito-peru", "name": "Peito de Peru", "desc": "Molho de tomate, muçarela, peito de peru, catupiry, milho, azeitona e orégano" },
+          { "id": "quatro-frios", "name": "Quatro Frios", "desc": "Molho de tomate, muçarela, lombinho, presunto, calabresa, bacon, catupiry e orégano" }
+        ]},
+        { "id": "doces", "name": "Doces", "prices": [null, null, null], "extra": null, "items": [
+          { "id": "brigadeiro", "name": "Brigadeiro", "desc": "Brigadeiro e granulado" }
+        ]}
+      ]
+    },
+    {
+      "id": "porcoes", "title": "Porções",
+      "groups": [
+        { "id": "petiscos", "name": "Petiscos", "items": [
+          { "id": "batata", "name": "Batata Frita", "p": null },
+          { "id": "batata-qb", "name": "Batata Frita com Queijo e Bacon", "p": null },
+          { "id": "torresmo-p", "name": "Torresmo", "p": null },
+          { "id": "mandioca", "name": "Mandioca", "p": null },
+          { "id": "nuggets", "name": "Nuggets", "desc": "20 unidades", "p": null },
+          { "id": "passarinho", "name": "Frango à Passarinho", "p": null }
+        ]},
+        { "id": "peixes", "name": "Peixes", "items": [
+          { "id": "tilapia", "name": "Filé de Tilápia", "p": null },
+          { "id": "tilapia-fritas", "name": "Filé de Tilápia com Fritas", "p": null },
+          { "id": "iscas-tilapia", "name": "Iscas de Tilápia", "p": null },
+          { "id": "iscas-tilapia-fritas", "name": "Iscas de Tilápia com Fritas", "p": null }
+        ]},
+        { "id": "combinados", "name": "Combinados", "items": [
+          { "id": "trio", "name": "Trio Mineiro", "desc": "Mandioca, linguiça e torresmo", "p": null },
+          { "id": "mista-trad", "name": "Mista Tradicional", "desc": "Lombo, fritas, filé de frango e mandioca", "p": null },
+          { "id": "mista-esp", "name": "Mista Especial", "desc": "Contrafilé, filé de tilápia e fritas", "p": null }
+        ]},
+        { "id": "carnes", "name": "Carnes", "items": [
+          { "id": "linguica", "name": "Linguiça", "desc": "Com cebola, pimentão, tomate e pimenta biquinho", "p": null },
+          { "id": "lombo", "name": "Lombo", "desc": "Com cebola, pimentão, tomate e pimenta biquinho", "p": null },
+          { "id": "lombo-fritas", "name": "Lombo com Fritas", "desc": "Com cebola, pimentão, tomate e pimenta biquinho", "p": null },
+          { "id": "contrafile", "name": "Contrafilé", "desc": "Com cebola e pimenta biquinho", "p": null },
+          { "id": "contrafile-fritas", "name": "Contrafilé com Fritas", "desc": "Com cebola e pimenta biquinho", "p": null },
+          { "id": "frango-catupiry-p", "name": "Filé de Frango com Catupiry", "p": null },
+          { "id": "meio-asa", "name": "Meio da Asa", "p": null }
+        ]},
+        { "id": "prato-feito", "name": "Prato Feito", "items": [
+          { "id": "tropeiro", "name": "Tropeiro", "desc": "Tropeiro, arroz, lombo em cubos e ovo", "p": null },
+          { "id": "bolonhesa", "name": "Espaguete à Bolonhesa", "desc": "Com molho de carne moída e muçarela", "p": null }
+        ]},
+        { "id": "adicionais", "name": "Adicionais", "desc": "Diga nas observações em qual porção vai o adicional.", "items": [
+          { "id": "add-queijo", "name": "Queijo", "p": null },
+          { "id": "add-bacon", "name": "Bacon", "p": null }
+        ]}
+      ]
+    },
+    {
+      "id": "bebidas", "title": "Bebidas",
+      "groups": [
+        { "id": "refrigerantes", "name": "Refrigerantes", "cols": ["Lata", "600 ml", "2 litros"], "items": [
+          { "id": "coca", "name": "Coca-Cola", "p": [null, null, null] },
+          { "id": "coca-zero", "name": "Coca-Cola Zero", "p": [null, null, null] },
+          { "id": "guarana", "name": "Guaraná", "p": [null, null, null] },
+          { "id": "pepsi", "name": "Pepsi", "p": [null, false, null] },
+          { "id": "sukita", "name": "Sukita", "p": [null, false, null] },
+          { "id": "fanta", "name": "Fanta Laranja", "p": [false, null, null] }
+        ]},
+        { "id": "cervejas", "name": "Cervejas Latão", "items": [
+          { "id": "antarctica", "name": "Antarctica", "p": null },
+          { "id": "brahma", "name": "Brahma", "p": null },
+          { "id": "brahma-zero", "name": "Brahma Sem Álcool", "p": null },
+          { "id": "original", "name": "Original", "p": null }
+        ]},
+        { "id": "sucos", "name": "Sucos", "items": [
+          { "id": "suco-caixa", "name": "Suco de Caixinha 250 ml", "desc": "Uva, maracujá, pêssego ou manga", "p": null, "opts": ["Uva", "Maracujá", "Pêssego", "Manga"] }
+        ]},
+        { "id": "aguas", "name": "Águas", "items": [
+          { "id": "agua", "name": "Água sem Gás", "p": null },
+          { "id": "agua-gas", "name": "Água com Gás", "p": null }
+        ]}
+      ]
+    }
+  ]
+}
