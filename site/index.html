@@ -132,7 +132,14 @@ a{color:inherit}
 
 /* ---------- Meio a meio ---------- */
 .half{display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px;align-items:center;margin-top:22px;border:1.5px dashed var(--green);border-radius:16px;padding:18px 20px;background:var(--paper)}
-.half-ico{width:84px;height:84px}
+.half-art{position:relative;width:108px;height:108px}
+.half-art > div{position:absolute;inset:0;border-radius:50%;overflow:hidden;display:grid;place-items:center;background:var(--bg);color:var(--dots)}
+.half-art .l{clip-path:inset(0 50% 0 0)}
+.half-art .r{clip-path:inset(0 0 0 50%)}
+.half-art .ph{border:2px dashed var(--dots)}
+.half-art img{width:100%;height:100%;object-fit:cover;display:block}
+.half-art svg{width:74%;height:74%}
+.half-art::after{content:'';position:absolute;left:calc(50% - 2px);top:0;bottom:0;width:4px;background:var(--paper)}
 .half h3{font-family:var(--f-head);font-weight:800;font-size:22px;color:var(--green);margin:2px 0 2px}
 .half .hint{margin:0 0 12px;color:var(--muted);font-size:14px}
 .picks{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end}
@@ -214,8 +221,9 @@ footer .brand img{width:150px;height:auto;display:block;margin-left:-4px}
   .picks .btn{grid-column:1/-1}
 }
 @media (max-width:520px){
-  .half{grid-template-columns:1fr}
-  .half-ico{display:none}
+  .half{grid-template-columns:1fr;justify-items:center}
+  .half > div:last-child{width:100%}
+  .half-art{width:120px;height:120px}
   .picks{grid-template-columns:1fr}
   .tbl tbody th{font-size:15px}
   .tbl thead th{letter-spacing:.08em}
@@ -382,7 +390,7 @@ function listGroup(g){
     ${act(it,`<button type="button" class="add" data-add="${it.id}" aria-label="Adicionar ${esc(it.name)}">${plus}</button>`)}</article>`).join('')}</div>`;
 }
 function halfBox(s){
-  return `<div class="half" id="half"><svg class="half-ico" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="#e9a54d"/><circle cx="50" cy="50" r="39" fill="#f6d77d"/><path d="M50 11a39 39 0 0 0 0 78z" fill="#d8553d" opacity=".85"/><path d="M50 4v92" stroke="#fff" stroke-width="4"/></svg>
+  return `<div class="half" id="half"><div class="half-art" id="halfArt" aria-hidden="true"></div>
     <div><div class="kick">Meio a meio</div><h3>Dois sabores na mesma pizza</h3>
     <p class="hint">Escolha as duas metades. O tamanho é o que estiver marcado nas categorias abaixo. Sabores de categorias diferentes: vale o preço da mais cara.</p>
     <div class="picks"><div class="pick"><label for="h-a">1ª metade</label><select id="h-a"></select></div><div class="pick"><label for="h-b">2ª metade</label><select id="h-b"></select></div>
@@ -403,6 +411,8 @@ function renderHalf(){
   const o = sel => '<option value="">Escolha o sabor</option>' + s.groups.map(g=>`<optgroup label="${esc(g.name)}">${g.items.filter(i=>!i.off).map(i=>`<option value="${i.id}" ${sel===i.id?'selected':''}>${esc(i.name)}</option>`).join('')}</optgroup>`).join('');
   $('#h-a').innerHTML = o(half.a); $('#h-b').innerHTML = o(half.b);
   const A = IDX[half.a], B = IDX[half.b];
+  const side = (x,c) => `<div class="${c}${x?'':' ph'}">${x ? (PH[x.it.id] ? `<img src="${esc(PH[x.it.id])}" alt="">` : PIZZA_ICON) : ''}</div>`;
+  $('#halfArt').innerHTML = side(A,'l') + side(B,'r');
   $('#halfPrice').textContent = A && B ? money(halfPrice(A,B)) : s.sizes[size];
   const ok = canHalf(), ls = s.sizes.filter((n,i)=>(s.half||[])[i]!==false);
   $('#main').classList.toggle('nohalf', !ok); $('#addHalf').disabled = !ok; $('#halfNo').hidden = ok;
