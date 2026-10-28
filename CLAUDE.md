@@ -30,8 +30,13 @@ Segue o impresso v2: fundo branco, verde #1e5b2e, vermelho #b8231b, cinza #55524
 - `mesa/` — cardápio de mesa do tema escuro antigo (v1). O `build_mesa.py` recortava as funções de desenho do site antigo, que não existem mais no v2: **não funciona mais**. Eles agora têm o impresso próprio (PDF v2).
 - `fotos/tratadas/` e `site/img/{torresmo,portuguesa,calabresa}.webp` — fotos do v1, hoje sem uso no site.
 
+## No ar
+- https://tia-lu-cardapio.pages.dev (Cloudflare Pages, conta do Helton) ligado a github.com/heltonjpc/tia-lu-cardapio; KV `tialu-menu` → binding `MENU`; secret `ADMIN_PASSWORD`. Push em main = deploy.
+- O KV já tem cardápio salvo pelo painel: mudar `site/menu.json` NÃO afeta mais o site (só vale como reserva se a API falhar).
+
 ## Pendências
 - Preços: a Tia Lu preenche pelo painel (o PDF v2 veio com R$ 00,00).
-- Publicar no Cloudflare (passo a passo no README) e definir a senha.
-- Horário de funcionamento e taxa de entrega: eles preenchem pelo painel.
+- Taxa de entrega: Morro Santana e Morro São Sebastião = R$ 3; qualquer outro bairro = R$ 4. Sugestão (aguardando ok): modo "Por bairro" com 3 linhas (os dois Morros + "Outro bairro"), sem texto livre.
+- Horário de funcionamento: eles preenchem pelo painel.
+- Domínio (já comprado): trocar nameservers no Registro.br para a Cloudflare e adicionar em Custom domains.
 - Confirmar regra do meio a meio e se acréscimo de pizza tem preço único.
