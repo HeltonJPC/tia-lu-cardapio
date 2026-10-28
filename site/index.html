@@ -49,10 +49,10 @@ a{color:inherit}
 
 /* ---------- Topo ---------- */
 .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
-.hero .wrap{position:relative;padding-block:22px 30px}
-.logo{display:block;width:clamp(150px,24vw,210px);height:auto;margin-left:-6px}
+.hero .wrap{position:relative;padding-block:22px 30px;text-align:center}
+.logo{display:block;width:clamp(170px,26vw,230px);height:auto;margin:0 auto 12px}
 .hero h1{font-family:var(--f-head);font-weight:800;font-size:clamp(52px,9vw,86px);line-height:.95;letter-spacing:-.025em;color:var(--green);margin:6px 0 18px}
-.status{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
+.status{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:center}
 .pill{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14px;padding:7px 13px;border-radius:999px;background:var(--green-soft);color:var(--green)}
 .pill::before{content:'';width:8px;height:8px;border-radius:50%;background:currentColor}
 .pill.closed{background:var(--red-soft);color:var(--red)}
@@ -60,7 +60,7 @@ a{color:inherit}
 .tel svg{width:18px;height:18px;color:var(--red)}
 .tel .k{font-size:12px;letter-spacing:.24em;color:var(--red)}
 .tel b{font-family:var(--f-head);font-size:19px;color:var(--ink)}
-.notice{margin-top:16px;max-width:560px;background:var(--red-soft);border-left:4px solid var(--red);border-radius:8px;padding:10px 14px;font-weight:500}
+.notice{margin:16px auto 0;max-width:560px;text-align:left;background:var(--red-soft);border-left:4px solid var(--red);border-radius:8px;padding:10px 14px;font-weight:500}
 
 /* ---------- Abas ---------- */
 .nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
