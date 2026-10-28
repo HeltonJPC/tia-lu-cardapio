@@ -94,6 +94,11 @@ a{color:inherit}
 .list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 48px}
 .it{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:start;padding:10px 0}
 .it h4{font-family:var(--f-head);font-weight:700;font-size:18px;line-height:1.25;color:var(--green);margin:0}
+.it.pz{grid-template-columns:64px minmax(0,1fr) auto;gap:14px}
+.th{width:64px;height:64px;border-radius:50%;background:var(--paper);color:var(--dots);display:grid;place-items:center;overflow:hidden}
+.th img{width:100%;height:100%;object-fit:cover;display:block}
+.th svg{width:44px;height:44px}
+.it.off .th{opacity:.45;filter:grayscale(1)}
 .it p{margin:3px 0 0;color:var(--muted);font-size:14.5px;line-height:1.45}
 .row{display:flex;align-items:baseline;gap:8px}
 .row h4{min-width:0}
@@ -214,6 +219,9 @@ footer .brand img{width:150px;height:auto;display:block;margin-left:-4px}
   .picks{grid-template-columns:1fr}
   .tbl tbody th{font-size:15px}
   .tbl thead th{letter-spacing:.08em}
+  .it.pz{grid-template-columns:54px minmax(0,1fr) auto;gap:12px}
+  .th{width:54px;height:54px}
+  .th svg{width:38px;height:38px}
   .cell{font-size:13px;padding:5px 8px;border-color:var(--green);color:var(--green)}
   .cell i{display:none}
   .na{padding-right:8px}
@@ -294,28 +302,39 @@ const $ = s => document.querySelector(s);
 const esc = s => String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const plus = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>';
 const DAYS = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const PIZZA_ICON = '<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="32" cy="32" r="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 4"/><path d="M32 5v54M8.6 18.5l46.8 27M8.6 45.5l46.8-27" stroke="currentColor" stroke-width="1.5" opacity=".6"/><circle cx="24" cy="24" r="3" fill="currentColor" opacity=".5"/><circle cx="40" cy="38" r="3" fill="currentColor" opacity=".5"/><circle cx="38" cy="22" r="2.4" fill="currentColor" opacity=".5"/></svg>';
 const store = (k,v) => { try{ v===undefined ? localStorage.removeItem(k) : localStorage.setItem(k,JSON.stringify(v)) }catch(e){} };
 const load = (k,d) => { try{ return JSON.parse(localStorage.getItem(k)) ?? d }catch(e){ return d } };
 
-let M, S, IDX = {}, size = load('tialu-size',2), cart = [], choice = {};
+let M, S, IDX = {}, PH = {}, size = load('tialu-size',2), cart = load('tialu-cart3',[]), choice = {};
+if(!Array.isArray(cart)) cart = [];
 const half = {a:'',b:''};
 const form = Object.assign({nome:'',modo:'Entrega',end:'',area:'',pag:'Pix',troco:'',obs:''}, load('tialu-form',{}));
 
 /* ---------- Carregar ---------- */
 const get = u => fetch(u,{cache:'no-store'}).then(r => r.ok ? r.json() : Promise.reject(r.status));
-get('/api/menu').catch(() => get('menu.json')).then(init).catch(() => {
+const photos = get('fotos.json').catch(() => ({}));                  // fotos vêm do GitHub; preços vêm do painel
+Promise.all([get('/api/menu').catch(() => get('menu.json')), photos]).then(([m,p]) => { PH = p; apply(m); }).catch(() => {
   $('#main').innerHTML = '<div class="loading">Não foi possível carregar o cardápio. Peça pelo WhatsApp <b>(31) 99783-9091</b>.</div>';
 });
 
-function init(menu){
-  M = menu; S = M.store;
-  M.sections.forEach(s => s.groups.forEach(g => g.items.forEach(it => { IDX[it.id] = {s,g,it}; if(it.opts) choice[it.id] = it.opts[0]; })));
-  const saved = load('tialu-cart2',{});
-  cart = saved.u === M.updated && Array.isArray(saved.items) ? saved.items : [];   // cardápio mudou → pedido antigo some
+function apply(menu){
+  M = menu; S = M.store; IDX = {};
+  M.sections.forEach(s => s.groups.forEach(g => g.items.forEach(it => { IDX[it.id] = {s,g,it}; if(it.opts && !it.opts.includes(choice[it.id])) choice[it.id] = it.opts[0]; })));
   const pz = M.sections.find(s => s.kind==='pizza');
   if(pz && !(size >= 0 && size < pz.sizes.length)) size = pz.sizes.length-1;
+  if(half.a && !IDX[half.a]) half.a = ''; if(half.b && !IDX[half.b]) half.b = '';
+  const gone = reprice();
   renderTop(); renderMain(); renderCart();
+  if(gone.length) toast(`${gone.join(', ')} não está mais disponível e saiu do seu pedido`);
 }
+/* a cada minuto, com a página aberta, confere se a Tia Lu salvou algo novo */
+async function refresh(){
+  if(document.hidden || !M) return;
+  try{ const m = await get('/api/menu'); if(m.updated && m.updated !== M.updated) apply(m); }catch(e){}
+}
+setInterval(refresh, 60000);
+document.addEventListener('visibilitychange', refresh);
 
 /* ---------- Loja: aberta? ---------- */
 function nowSP(){ const d = new Date(new Date().toLocaleString('en-US',{timeZone:'America/Sao_Paulo'})); return {d:d.getDay(), m:d.getHours()*60+d.getMinutes()}; }
@@ -351,7 +370,7 @@ const grpHead = g => `<div class="grp-h"><h3>${esc(g.name)}</h3></div>${g.desc?`
 function pizzaGroup(s,g){
   const tiles = s.sizes.map((n,i)=>`<button type="button" class="tile" role="radio" aria-checked="${i===size}" data-size="${i}"><span>${esc(n)}</span><b>${money(g.prices[i])}</b></button>`).join('')
     + (g.extra!=null ? `<div class="tile extra"><span>Cada acréscimo</span><b>${BRL(g.extra)}</b></div>` : '');
-  const items = g.items.map(it=>`<article class="it${it.off?' off':''}"><div><h4>${esc(it.name)}</h4>${it.desc?`<p>${esc(it.desc)}</p>`:''}${opts(it)}</div>
+  const items = g.items.map(it=>`<article class="it pz${it.off?' off':''}"><div class="th">${PH[it.id] ? `<img src="${esc(PH[it.id])}" alt="" width="64" height="64" loading="lazy">` : PIZZA_ICON}</div><div><h4>${esc(it.name)}</h4>${it.desc?`<p>${esc(it.desc)}</p>`:''}${opts(it)}</div>
     ${act(it,`<button type="button" class="hb" data-half="${it.id}" aria-label="Meia ${esc(it.name)}">½</button><button type="button" class="add" data-add="${it.id}" aria-label="Adicionar ${esc(it.name)}">${plus}</button>`)}</article>`).join('');
   return `<div class="grp" id="g-${g.id}">${grpHead(g)}<div class="tiles" role="radiogroup" aria-label="Tamanho da pizza">${tiles}</div><div class="list">${items}</div></div>`;
 }
@@ -378,7 +397,7 @@ function renderMain(){
   renderHalf(); watchTabs();
 }
 function pizzaSec(){ return M.sections.find(s=>s.kind==='pizza'); }
-function halfPrice(A,B){ const a = A.g.prices[size], b = B.g.prices[size]; return a==null || b==null ? null : Math.max(a,b); }
+function halfPrice(A,B,z=size){ const a = A.g.prices[z], b = B.g.prices[z]; return a==null || b==null ? null : Math.max(a,b); }
 function renderHalf(){
   const s = pizzaSec(); if(!s) return;
   const o = sel => '<option value="">Escolha o sabor</option>' + s.groups.map(g=>`<optgroup label="${esc(g.name)}">${g.items.filter(i=>!i.off).map(i=>`<option value="${i.id}" ${sel===i.id?'selected':''}>${esc(i.name)}</option>`).join('')}</optgroup>`).join('');
@@ -392,11 +411,33 @@ function renderHalf(){
 function canHalf(){ const s = pizzaSec(); return !!s && (s.half||[])[size] !== false; }
 
 /* ---------- Pedido ---------- */
-function save(){ store('tialu-cart2',{u:M.updated,items:cart}); }
-function addItem(key,name,detail,price){
-  const it = cart.find(i=>i.key===key);
-  if(it) it.qty++; else cart.push({key,name,detail,price,qty:1});
-  save(); renderCart(); toast(`${name}${detail?' · '+detail:''} no pedido`);
+function save(){ store('tialu-cart3',cart); }
+/* cada item do pedido guarda só a escolha (sp); nome e preço saem sempre do cardápio atual */
+function build(sp){
+  const pz = pizzaSec();
+  if(sp.a){
+    const A = IDX[sp.a], B = IDX[sp.b];
+    if(!pz || !A || !B || A.it.off || B.it.off || !pz.sizes[sp.size] || (pz.half||[])[sp.size]===false) return null;
+    const nm = x => x.it.name + (sp.ch[x.it.id] ? ` (${sp.ch[x.it.id]})` : '');
+    return {key:'mm-'+[sp.a+(sp.ch[sp.a]||''), sp.b+(sp.ch[sp.b]||'')].sort().join('+')+'-'+sp.size, name:'Pizza meio a meio', detail:`${pz.sizes[sp.size]} · ½ ${nm(A)} + ½ ${nm(B)}`, price:halfPrice(A,B,sp.size)};
+  }
+  const x = IDX[sp.id]; if(!x || x.it.off) return null;
+  const {s,g,it} = x;
+  if(s.kind==='pizza') return s.sizes[sp.size] ? {key:`pz-${it.id}-${sp.size}-${sp.ch||''}`, name:`Pizza ${it.name}`, detail:[s.sizes[sp.size], sp.ch].filter(Boolean).join(' · '), price:g.prices[sp.size]} : null;
+  const p = sp.col!=null ? (g.cols && Array.isArray(it.p) ? it.p[sp.col] : false) : it.p;
+  if(p===false || p===undefined) return null;
+  return {key:`it-${it.id}-${sp.col??''}-${sp.ch||''}`, name:it.name, detail:[sp.col!=null ? g.cols[sp.col] : g.name, sp.ch].filter(Boolean).join(' · '), price:p};
+}
+function reprice(){
+  const gone = [];
+  cart = cart.filter(c => { const l = c.sp && build(c.sp); if(!l){ gone.push(c.name||'Um item'); return false; } Object.assign(c,l); return true; });
+  save(); return gone;
+}
+function addItem(sp){
+  const l = build(sp); if(!l) return;
+  const it = cart.find(i=>i.key===l.key);
+  if(it) it.qty++; else cart.push({sp, ...l, qty:1});
+  save(); renderCart(); toast(`${l.name}${l.detail?' · '+l.detail:''} no pedido`);
 }
 function fee(){
   const D = S.delivery; if(form.modo!=='Entrega') return 0;
@@ -486,16 +527,13 @@ document.addEventListener('click', e => {
     const A = IDX[half.a], B = IDX[half.b], s = pizzaSec();
     if(!canHalf()) return;
     if(!A || !B || A===B){ $('#halfErr').hidden = false; (A?$('#h-b'):$('#h-a')).focus(); return; }
-    const nm = x => x.it.name + (x.it.opts ? ` (${choice[x.it.id]})` : '');
-    const key = 'mm-' + [A.it.id+(choice[A.it.id]||''), B.it.id+(choice[B.it.id]||'')].sort().join('+') + '-' + size;
-    addItem(key, 'Pizza meio a meio', `${s.sizes[size]} · ½ ${nm(A)} + ½ ${nm(B)}`, halfPrice(A,B));
+    const ch = {}; [A,B].forEach(x => { if(x.it.opts) ch[x.it.id] = choice[x.it.id]; });
+    addItem({a:A.it.id, b:B.it.id, size, ch});
     half.a = half.b = ''; renderHalf(); return;
   }
   if(d.add){
-    const {s,g,it} = IDX[d.add], ch = choice[it.id];
-    if(s.kind==='pizza') return addItem(`pz-${it.id}-${size}-${ch||''}`, `Pizza ${it.name}`, [s.sizes[size], ch].filter(Boolean).join(' · '), g.prices[size]);
-    const col = d.col!=null ? +d.col : null;
-    return addItem(`it-${it.id}-${col??''}-${ch||''}`, it.name, [col!=null ? g.cols[col] : g.name, ch].filter(Boolean).join(' · '), col!=null ? it.p[col] : it.p);
+    const {s} = IDX[d.add], ch = choice[d.add];
+    return addItem(s.kind==='pizza' ? {id:d.add, size, ch} : {id:d.add, col: d.col!=null ? +d.col : null, ch});
   }
   if(d.q){ const i = cart[+d.q]; i.qty += +d.d; if(i.qty<=0) cart.splice(+d.q,1); save(); renderCart(); return; }
   if(el.id==='openCart') return openSheet();
@@ -524,10 +562,12 @@ document.addEventListener('change', e => {
 });
 document.addEventListener('keydown', e => { if(e.key==='Escape' && !$('#sheet').hidden) closeSheet(); });
 
+let io;
 function watchTabs(){
   if(!('IntersectionObserver' in window)) return;
+  io && io.disconnect();
   const tabs = [...document.querySelectorAll('.nav a.tab[data-sec]')];
-  const io = new IntersectionObserver(es => es.forEach(en => { if(en.isIntersecting) tabs.forEach(t => t.classList.toggle('on', t.dataset.sec===en.target.id)); }), {rootMargin:'-40% 0px -55% 0px'});
+  io = new IntersectionObserver(es => es.forEach(en => { if(en.isIntersecting) tabs.forEach(t => t.classList.toggle('on', t.dataset.sec===en.target.id)); }), {rootMargin:'-40% 0px -55% 0px'});
   M.sections.forEach(s => io.observe(document.getElementById(s.id)));
 }
 let wasOpen;

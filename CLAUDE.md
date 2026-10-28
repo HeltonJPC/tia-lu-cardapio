@@ -19,7 +19,9 @@ Fechou negócio em out/2026 (R$ 490). Eles vão comprar o domínio (sugestão: p
 - `sections[]`: {id, title, kind?:'pizza', sizes? , groups[]}. Grupo de pizza: `prices[]` por tamanho + `extra` (acréscimo, só aparece se tiver valor). Grupo comum: itens com `p`. Grupo com `cols` (refrigerantes): `p` é array; `null` = Consultar, `false` = não vende.
 - Item: id, name, desc?, opts? (cliente escolhe uma), off? (esgotado).
 - Meio a meio: vale o preço da categoria mais cara (regra assumida, confirmar com o cliente). `half[]` na seção de pizza diz em quais tamanhos é permitido (Pequena não tem, pedido do Helton 28/10); liga/desliga no painel.
-- Pedido no navegador do cliente (`tialu-cart2`) é descartado quando `updated` muda.
+- Pedido no navegador do cliente (`tialu-cart3`) guarda só a escolha de cada item (`sp`); nome e preço são recalculados do cardápio atual (`build`/`reprice`). Item que sumiu/esgotou sai do pedido com aviso.
+- Com a página aberta, o cardápio confere `/api/menu` a cada 60 s (e ao voltar para a aba) e redesenha se `updated` mudou.
+- **Fotos das pizzas**: `site/fotos.json` (`{"id-do-sabor": "img/pizzas/x.webp"}`), miniaturas 160 px em `site/img/pizzas/`. Vêm pelo GitHub, NÃO pelo painel (o cardápio salvo no KV não tem foto). Sabor sem foto mostra ícone de pizza em traço. Para foto nova: tratar, salvar em img/pizzas/<id>.webp, registrar no fotos.json (ids reais: GET /api/menu). Hoje são as 3 fotos do v1 (provisórias).
 
 ## Visual
 Segue o impresso v2: fundo branco, verde #1e5b2e, vermelho #b8231b, cinza #55524c. Fontes Bricolage Grotesque (títulos) + DM Sans (texto). Tema claro único, de propósito.
