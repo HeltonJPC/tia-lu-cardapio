@@ -377,7 +377,7 @@ const grpHead = g => `<div class="grp-h"><h3>${esc(g.name)}</h3></div>${g.desc?`
 
 function pizzaGroup(s,g){
   const tiles = s.sizes.map((n,i)=>`<button type="button" class="tile" role="radio" aria-checked="${i===size}" data-size="${i}"><span>${esc(n)}</span><b>${money(g.prices[i])}</b></button>`).join('')
-    + (g.extra!=null ? `<div class="tile extra"><span>Cada acréscimo</span><b>${BRL(g.extra)}</b></div>` : '');
+    + (g.extra!=null ? `<div class="tile extra"><span>${esc(g.extraName||'Cada acréscimo')}</span><b>${BRL(g.extra)}</b></div>` : '');
   const items = g.items.map(it=>`<article class="it pz${it.off?' off':''}"><div class="th">${PH[it.id] ? `<img src="${esc(PH[it.id])}" alt="" width="64" height="64" loading="lazy">` : PIZZA_ICON}</div><div><h4>${esc(it.name)}</h4>${it.desc?`<p>${esc(it.desc)}</p>`:''}${opts(it)}</div>
     ${act(it,`<button type="button" class="hb" data-half="${it.id}" aria-label="Meia ${esc(it.name)}">½</button><button type="button" class="add" data-add="${it.id}" aria-label="Adicionar ${esc(it.name)}">${plus}</button>`)}</article>`).join('');
   return `<div class="grp" id="g-${g.id}">${grpHead(g)}<div class="tiles" role="radiogroup" aria-label="Tamanho da pizza">${tiles}</div><div class="list">${items}</div></div>`;
@@ -386,7 +386,7 @@ function listGroup(g){
   if(g.cols) return `<div class="grp" id="g-${g.id}">${grpHead(g)}<table class="tbl"><thead><tr><th scope="col"><span class="sr">Item</span></th>${g.cols.map(c=>`<th scope="col">${esc(c)}</th>`).join('')}</tr></thead><tbody>${
     g.items.map(it=>`<tr class="${it.off?'off':''}"><th scope="row">${esc(it.name)}${it.off?' <span class="sold">Esgotado</span>':''}</th>${it.p.map((v,i)=>`<td>${
       v===false ? '<span class="na" aria-label="não tem">—</span>' : it.off ? `<span class="na">${money(v)}</span>` : `<button type="button" class="cell" data-add="${it.id}" data-col="${i}" aria-label="Adicionar ${esc(it.name)} ${esc(g.cols[i])}">${money(v)}<i>${plus}</i></button>`}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
-  return `<div class="grp" id="g-${g.id}">${grpHead(g)}${g.items.map(it=>`<article class="it${it.off?' off':''}"><div><div class="row"><h4>${esc(it.name)}</h4><span class="dots"></span><span class="pr">${money(it.p)}</span></div>${it.desc?`<p>${esc(it.desc)}</p>`:''}${opts(it)}</div>
+  return `<div class="grp" id="g-${g.id}">${grpHead(g)}${g.items.map(it=>`<article class="it${it.off?' off':''}${PH[it.id]?' pz':''}">${PH[it.id]?`<div class="th"><img src="${esc(PH[it.id])}" alt="" width="64" height="64" loading="lazy"></div>`:''}<div><div class="row"><h4>${esc(it.name)}</h4><span class="dots"></span><span class="pr">${money(it.p)}</span></div>${it.desc?`<p>${esc(it.desc)}</p>`:''}${opts(it)}</div>
     ${act(it,`<button type="button" class="add" data-add="${it.id}" aria-label="Adicionar ${esc(it.name)}">${plus}</button>`)}</article>`).join('')}</div>`;
 }
 function halfBox(s){

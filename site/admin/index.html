@@ -259,7 +259,8 @@ function section(si){
   return `<p class="help" style="margin-top:14px">${help} Desligue <b>Disponível</b> para mostrar o item como esgotado sem apagar.</p>` + half + s.groups.map((g,gi)=>{
     const G = `${P}.groups.${gi}`;
     return `<div class="grp"><div class="grp-h"><div><label class="f">${pizza?'Categoria':'Grupo'}</label><input type="text" class="name" data-text="${G}.name" value="${esc(g.name)}"></div>${tools(`${P}.groups`, gi, s.groups.length)}</div>
-      ${pizza ? `<div class="prices">${s.sizes.map((n,i)=>`<div><label class="f">${esc(n)}</label>${money(`${G}.prices.${i}`, g.prices[i], false, n)}</div>`).join('')}<div><label class="f">Cada acréscimo</label>${money(`${G}.extra`, g.extra, false, 'Acréscimo')}</div></div>` : ''}
+      ${pizza ? `<div class="prices">${s.sizes.map((n,i)=>`<div><label class="f">${esc(n)}</label>${money(`${G}.prices.${i}`, g.prices[i], false, n)}</div>`).join('')}<div><label class="f">Cada acréscimo</label>${money(`${G}.extra`, g.extra, false, 'Acréscimo')}</div></div>
+        <div style="margin-top:10px"><label class="f">Texto do acréscimo (opcional)</label><input type="text" data-text="${G}.extraName" value="${esc(g.extraName)}" placeholder="Cada acréscimo"></div>` : ''}
       ${g.items.map((it,ii)=>item(s, g, `${G}.items`, it, ii)).join('')}
       <div class="addrow"><button type="button" class="btn ghost" data-additem="${G}">+ ${pizza?'Adicionar sabor':'Adicionar item'}</button></div></div>`;
   }).join('') + `<div class="addrow" style="padding-inline:0"><button type="button" class="btn ghost" data-addgroup="${P}">+ ${pizza?'Nova categoria':'Novo grupo'}</button></div>`;

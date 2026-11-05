@@ -13,9 +13,15 @@ async function authorized(request, env) {
 }
 
 export async function onRequestGet({ request, env }) {
-  const saved = await env.MENU.get('menu');
-  const body = saved ?? await (await env.ASSETS.fetch(new URL('/menu.json', request.url))).text();
-  return new Response(body, { headers: JSON_H });
+  let saved = await env.MENU.get('menu');
+  const base = await (await env.ASSETS.fetch(new URL('/menu.json', request.url))).text();
+  const tag = JSON.parse(base).import;                                // importação única pelo GitHub (ex.: "v6"): troca o cardápio salvo 1 vez, com backup
+  if (tag && !(await env.MENU.get('import-' + tag))) {
+    if (saved) await env.MENU.put('backup-antes-' + tag, saved);
+    const m = JSON.parse(base); m.updated = Date.now(); saved = JSON.stringify(m);
+    await env.MENU.put('menu', saved); await env.MENU.put('import-' + tag, new Date().toISOString());
+  }
+  return new Response(saved ?? base, { headers: JSON_H });
 }
 
 export async function onRequestPost({ request, env }) {
