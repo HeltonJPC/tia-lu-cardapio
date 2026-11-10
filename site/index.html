@@ -452,7 +452,12 @@ function addItem(sp){
 function fee(){
   const D = S.delivery; if(form.modo!=='Entrega') return 0;
   if(D.mode==='fixa') return D.fee;
-  if(D.mode==='bairro'){ const a = D.areas.find(x=>x.n===form.area); return a ? a.p : null; }
+  if(D.mode==='bairro'){   // bairro digitado: todas as palavras do bairro da lista ("morro" + "santana") têm que estar no texto; senão, taxa padrão
+    if(!form.area.trim()) return null;
+    const w = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/sant'?\s?a?\s?ana/g,'santana').split(/[^a-z]+/).filter(x=>x.length>2);
+    const t = w(form.area), a = D.areas.find(x => w(x.n).length && w(x.n).every(p => t.includes(p)));
+    return a ? a.p : D.fee;
+  }
   return null;
 }
 function totals(){
@@ -486,7 +491,7 @@ function sumHTML(){
   const t = totals(), f = fee(), D = S.delivery;
   let h = `<span class="t">Itens</span><b>${totalTxt(t)}</b>`;
   if(form.modo==='Entrega'){
-    h += `<span>Taxa de entrega</span><span>${f==null ? (D.mode==='bairro' ? 'escolha o bairro' : 'a combinar') : BRL(f)}</span>`;
+    h += `<span>Taxa de entrega</span><span>${f==null ? (D.mode==='bairro' ? 'informe o bairro' : 'a combinar') : BRL(f)}</span>`;
     if(f!=null && !t.pend) h += `<span class="t">Total</span><b>${BRL(t.v+f)}</b>`;
   }
   return h;
@@ -505,7 +510,7 @@ function renderSheet(){
     <div><span class="legend">Como vai receber?</span>
       <div class="seg"><label><input type="radio" name="modo" value="Entrega" ${form.modo==='Entrega'?'checked':''}>Entrega</label><label><input type="radio" name="modo" value="Retirada" ${form.modo==='Retirada'?'checked':''}>Retirada</label></div></div>
     <div id="endWrap" class="form" ${form.modo==='Entrega'?'':'hidden'}>
-      ${D.mode==='bairro' ? `<div class="field"><label for="f-area">Bairro</label><select id="f-area"><option value="">Escolha o bairro</option>${D.areas.map(a=>`<option ${form.area===a.n?'selected':''} value="${esc(a.n)}">${esc(a.n)} — ${money(a.p)}</option>`).join('')}</select><div class="err" id="e-area" hidden>Escolha o bairro.</div></div>` : ''}
+      ${D.mode==='bairro' ? `<div class="field"><label for="f-area">Bairro</label><input id="f-area" value="${esc(form.area)}" placeholder="Ex.: Morro Santana"><div class="err" id="e-area" hidden>Informe o bairro.</div></div>` : ''}
       <div class="field"><label for="f-end">Endereço de entrega</label><input id="f-end" autocomplete="street-address" value="${esc(form.end)}" placeholder="Rua, número e referência"><div class="err" id="e-end" hidden>Informe o endereço.</div></div>
     </div>
     <div class="field"><label for="f-pag">Pagamento</label><select id="f-pag">${['Pix','Cartão na entrega','Dinheiro'].map(o=>`<option ${form.pag===o?'selected':''}>${o}</option>`).join('')}</select></div>
@@ -550,7 +555,7 @@ document.addEventListener('click', e => {
   if(el.id==='closeCart') return closeSheet();
   if(el.id==='clearCart'){ cart = []; save(); renderCart(); return; }
   if(el.id==='send'){
-    const need = [['nome', !form.nome.trim()], ['end', form.modo==='Entrega' && !form.end.trim()], ['area', form.modo==='Entrega' && S.delivery.mode==='bairro' && !form.area]];
+    const need = [['nome', !form.nome.trim()], ['end', form.modo==='Entrega' && !form.end.trim()], ['area', form.modo==='Entrega' && S.delivery.mode==='bairro' && !form.area.trim()]];
     need.forEach(([k,bad]) => { const x = $('#e-'+k); if(x) x.hidden = !bad; });
     const first = need.find(([k,bad]) => bad && $('#f-'+k));
     if(first){ e.preventDefault(); $('#f-'+first[0]).focus(); } else el.href = link();
@@ -558,7 +563,7 @@ document.addEventListener('click', e => {
 });
 document.addEventListener('click', e => { if(e.target.id==='scrim') closeSheet(); });
 document.addEventListener('input', e => {
-  const k = {'f-nome':'nome','f-end':'end','f-troco':'troco','f-obs':'obs'}[e.target.id];
+  const k = {'f-nome':'nome','f-area':'area','f-end':'end','f-troco':'troco','f-obs':'obs'}[e.target.id];
   if(k){ form[k] = e.target.value; saveForm(); }
 });
 document.addEventListener('change', e => {
@@ -566,7 +571,6 @@ document.addEventListener('change', e => {
   if(id==='h-a' || id==='h-b'){ half[id==='h-a'?'a':'b'] = e.target.value; renderHalf(); $('#halfErr').hidden = true; return; }
   if(e.target.name==='modo'){ form.modo = e.target.value; $('#endWrap').hidden = form.modo!=='Entrega'; }
   else if(id==='f-pag'){ form.pag = e.target.value; $('#trocoWrap').hidden = form.pag!=='Dinheiro'; }
-  else if(id==='f-area') form.area = e.target.value;
   else return;
   saveForm();
 });

@@ -36,7 +36,7 @@ Segue o impresso v2: fundo branco, verde #1e5b2e, vermelho #b8231b, cinza #55524
 
 ## Pendências
 - Preços: importados do cardápio v6 (`Desktop\Tia Lu\Cardapio-Delivery-Tia-Lu-v6.pdf`, 02/11) com `import: "v6"`. Grupo de pizza aceita `extraName` (texto do acréscimo; Tradicionais/Especiais = "Acréscimo queijo/bacon", Doce sem acréscimo).
-- Taxa de entrega: Morro Santana e Morro São Sebastião = R$ 3; qualquer outro bairro = R$ 4. Sugestão (aguardando ok): modo "Por bairro" com 3 linhas (os dois Morros + "Outro bairro"), sem texto livre.
+- Taxa de entrega (v2.3.0, 10/11): modo "Por bairro" = cliente DIGITA o bairro; casa se todas as palavras (>2 letras, sem acento, sant'ana→santana) do nome da lista estão no texto → taxa do bairro; senão `delivery.fee` (taxa dos demais). Morro Santana e Morro da Queimada R$ 3, demais R$ 4 (editáveis no painel). Exige "morro" de propósito (pode haver outro bairro com Santana/Queimada). Linha de bairro vazia é ignorada.
 - Horário de funcionamento: eles preenchem pelo painel.
 - Domínio (já comprado): trocar nameservers no Registro.br para a Cloudflare e adicionar em Custom domains.
 - Confirmar regra do meio a meio e se acréscimo de pizza tem preço único.
